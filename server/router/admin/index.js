@@ -10,7 +10,7 @@ module.exports = app => {
 		res.send(model)
 	})
 	// 编辑分类
-	router. put('/categories/:id', async (req, res) => {
+	router.put('/categories/:id', async (req, res) => {
 		// create 盲猜是创建一个方法 
 		// req.body 就是请求体
 		// req.params.id 就是请求头中 id
@@ -21,7 +21,7 @@ module.exports = app => {
 	router.get('/categories', async (req, res) => {
 		// find 盲猜是找数据 
 		// limit 盲猜 是获取多少条数据
-		const items = await Categories.find().limit(10)
+		const items = await Categories.find().populate('parent').limit(10)
 		res.send(items)
 	})
 	// 根据 id 获取 分类

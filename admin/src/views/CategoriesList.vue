@@ -3,6 +3,7 @@
 		<h1>分类列表</h1>
 		<el-table :data="items" border>
 			<el-table-column label="ID" prop="_id"></el-table-column>
+			<el-table-column label="上级分类" prop="parent.name"></el-table-column>
 			<el-table-column label="分类名称" prop="name"></el-table-column>
 			<el-table-column>
 				<template slot-scope="{row}">
