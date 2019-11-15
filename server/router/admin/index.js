@@ -24,7 +24,7 @@ module.exports = app => {
 		// limit 盲猜 是获取多少条数据
 		const queryOption = {}
 		// 如果接口是 Category 那么请求的时候 就要带上一个对象
-		if(req.Model.modelName === 'Category'){
+		if (req.Model.modelName === 'Category') {
 			// 通过 setOptions 来传入给 mongoose
 			queryOption.populate = 'parent'
 		}
@@ -38,7 +38,7 @@ module.exports = app => {
 	})
 	//  根据 id 删除分类
 	router.delete('/:id', async (req, res) => {
-		const model = await req.Model.findByIdAndDelete(req.params.id,req.body)
+		const model = await req.Model.findByIdAndDelete(req.params.id, req.body)
 		res.send(model)
 	})
 	app.use('/admin/api/rest/:resource', (req, res, next) => {
@@ -50,4 +50,13 @@ module.exports = app => {
 		// 放行
 		next()
 	}, router)
+
+	const multer = require('multer')
+	let upload = multer({ dest: __dirname + '/../../uploads' })
+	// 定义上传图片的接口
+	app.post('/admin/api/upload', upload.single('file'), async (req, res) => {
+		const file = req.file
+		file.url = `http://localhost:3000/uploads/${file.filename}`
+		res.send(file)
+	}) 
 }
