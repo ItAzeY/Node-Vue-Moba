@@ -3,12 +3,13 @@
 		<h1>英雄列表</h1>
 		<el-table :data="heroes" border>
 			<el-table-column label="ID" prop="_id"></el-table-column>
-			<el-table-column label="头像">
+			<el-table-column label="英雄名称" prop="name"></el-table-column>
+			<el-table-column label="英雄头像">
 				<template slot-scope="{row}">
 					<img :src="row.avatar" :alt="row.avatar" style="height: 3.5rem">
 				</template>
 			</el-table-column>
-			<el-table-column label="物品名称" prop="name"></el-table-column>
+			<el-table-column label="英雄称号" prop="title" />
 			<el-table-column>
 				<template slot-scope="{row}">
 					<el-button type="text" @click="handleRouter(row._id)">编辑</el-button>
