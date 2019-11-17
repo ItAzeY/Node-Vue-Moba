@@ -4,14 +4,19 @@
     <el-form label-width="120px" @submit.native.prevent="handleSave">
       <el-form-item label="所属分类">
         <el-select v-model="model.categories" multiple>
-          <el-option v-for="item in categories" :key="item._id" :value="item._id" :label="item.name"></el-option>
+          <el-option
+            v-for="item in categories"
+            :key="item._id"
+            :value="item._id"
+            :label="item.name"
+          ></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="文章标题">
         <el-input v-model="model.title" placeholder="请输入名称"></el-input>
       </el-form-item>
       <el-form-item label="文章详情">
-        <el-input v-model="model.body" type="textarea"></el-input>
+        <vue-editor v-model="model.body"></vue-editor>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" native-type="subbmit">保存</el-button>
@@ -21,6 +26,7 @@
 </template>
 
 <script>
+import { VueEditor } from "vue2-editor";
 export default {
   name: "CategoriesEdit",
   props: {
@@ -29,12 +35,15 @@ export default {
   data() {
     return {
       model: {},
-      categories:[]
+      categories: []
     };
+  },
+  components: {
+    VueEditor
   },
   created() {
     this.id && this.fetch();
-    this.fetchCategories()
+    this.fetchCategories();
   },
   methods: {
     async handleSave() {
