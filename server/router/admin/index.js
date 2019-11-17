@@ -28,7 +28,7 @@ module.exports = app => {
 			// 通过 setOptions 来传入给 mongoose
 			queryOption.populate = 'parent'
 		}
-		const items = await req.Model.find().setOptions(queryOption).limit(10)
+		const items = await req.Model.find().setOptions(queryOption)
 		res.send(items)
 	})
 	// 根据 id 获取 分类

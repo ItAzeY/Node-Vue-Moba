@@ -2,7 +2,7 @@
   <div class="categories">
     <h1>{{id ? '编辑分类' : '新建分类'}}</h1>
     <el-form label-width="120px" @submit.native.prevent="handleSave">
-      <el-form-item label="上次分类">
+      <el-form-item label="上级分类">
         <!-- <el-input v-model="model.parent" placeholder="请输入名称"></el-input> -->
         <el-select v-model="model.parent">
           <el-option v-for="item in parents" :key="item._id" :value="item._id" :label="item.name"></el-option>
