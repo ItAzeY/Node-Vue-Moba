@@ -16,7 +16,7 @@
         <el-input v-model="model.title" placeholder="请输入名称"></el-input>
       </el-form-item>
       <el-form-item label="文章详情">
-        <vue-editor v-model="model.body"></vue-editor>
+        <vue-editor useCustomImageHandler @image-added="handleImageAdded" v-model="model.body"></vue-editor>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" native-type="subbmit">保存</el-button>
@@ -46,6 +46,13 @@ export default {
     this.fetchCategories();
   },
   methods: {
+    async handleImageAdded(file, Editor, cursorLocation, resetUploader) {
+      var formData = new FormData();
+      formData.append("file", file);
+      const res = await this.$http.post("upload", formData);
+      Editor.insertEmbed(cursorLocation, "image", res.data.url);
+      resetUploader();
+    },
     async handleSave() {
       if (this.id) {
         await this.$http.put(`rest/article/${this.id}`, this.model);
