@@ -26,7 +26,8 @@ export default {
   },
   methods: {
     async login() {
-      console.log(this.model);
+      const res = await this.$http.post('login',this.model)
+      console.log(res)
     }
   }
 };
@@ -37,14 +38,13 @@ export default {
   overflow: hidden;
   .login-card {
     width: 30vw;
-    margin: 20vh auto;
+    margin: 18vh auto;
   }
 }
 @media (max-width: 1200px) {
   .login-container {
     .login-card {
       width: 60vw;
-      margin: 20vh auto;
     }
   }
 }
@@ -52,7 +52,6 @@ export default {
   .login-container {
     .login-card {
       width: 80vw;
-      margin: 20vh auto;
     }
   }
 }
