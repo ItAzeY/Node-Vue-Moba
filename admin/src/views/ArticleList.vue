@@ -28,7 +28,7 @@ export default {
 	methods: {
 		async fetch(){
 			const items = await this.$http.get('rest/articles')
-			this.items = items.data
+			this.items = items.data.data
 		},
 		async remove(row){
 			this.$confirm(`是否要删除此文章----${row.title}`, '提示', {

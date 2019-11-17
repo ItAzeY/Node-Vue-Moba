@@ -12,6 +12,13 @@
 				</template>
 			</el-table-column>
 		</el-table>
+		<el-pagination
+      @current-change="handleCurrentChange"
+      :current-page="page.current"
+      :page-size="page.size"
+      layout="total, prev, pager, next, jumper"
+      :total="page.total">
+    </el-pagination>
 	</div>
 </template>
 
@@ -20,16 +27,26 @@ export default {
 	name: 'CategoriesList',
 	data(){
 		return {
-			items: []
+			items: [],
+			page: {
+				current:1,
+				size: 10,
+				total: 0
+			}
 		}
 	},
 	created() {
 		this.fetch()
 	},
 	methods: {
+		handleCurrentChange(val){
+			this.page.current = val
+			this.fetch()
+		},
 		async fetch(){
-			const items = await this.$http.get('rest/categories')
-			this.items = items.data
+			const items = await this.$http.get(`rest/categories?current=${this.page.current}&size=${this.page.size}`)
+			this.items = items.data.data
+			this.page.total = items.data.total
 		},
 		async remove(row){
 			this.$confirm(`是否要删除此分类----${row.name}`, '提示', {
@@ -52,3 +69,9 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss">
+.el-pagination{
+	text-align: center;
+}
+</style>

@@ -39,7 +39,7 @@ export default {
 		// 获取数据
 		async fetch(){
 			const items = await this.$http.get('rest/heroes')
-			this.heroes = items.data
+			this.heroes = items.data.data
 		},
 		async remove(row){
 			this.$confirm(`是否要删除此分类----${row.name}`, '提示', {

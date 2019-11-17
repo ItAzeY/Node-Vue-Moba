@@ -28,8 +28,20 @@ module.exports = app => {
 			// 通过 setOptions 来传入给 mongoose
 			queryOption.populate = 'parent'
 		}
-		const items = await req.Model.find().setOptions(queryOption)
-		res.send(items)
+		let items = {}
+		if(req.query){
+			const current = req.query.current - 1
+			const size = +req.query.size
+			items = await req.Model.find().setOptions(queryOption).skip(current * size).limit(size)
+		}else{
+			items = await req.Model.find().setOptions(queryOption)
+		}
+		const total = await req.Model.find().setOptions(queryOption).count()
+		const data = {
+			data: items,
+			total: total
+		}
+		res.send(data)
 	})
 	// 根据 id 获取 分类
 	router.get('/:id', async (req, res) => {
