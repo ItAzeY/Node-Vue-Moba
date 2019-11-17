@@ -96,3 +96,7 @@ router.get("/categories/parent", async (req, res) => {
 // 引入 npm 包,hashSync 是异步方法,val是密码, 10 是安全等级.越大耗时越长,一般 10-12
 require('bcrypt').hashSync(val, 10)
 ```
+
+## 登陆界面
+
+登陆界面的布局,使用`vw` 和 `vh` 来做,这样不管是什么分辨率的情况都可以正常展示,额,宽度配上媒体查询
