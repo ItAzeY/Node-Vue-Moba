@@ -76,7 +76,7 @@ module.exports = app => {
 		const {username, password } = req.body
 		// 1. 根据用户名找用户
 		const AdminUser = require('../../models/AdminUser') 
-		const user = await AdminUser.findOne({ username })
+		const user = await AdminUser.findOne({ username }).select('+password')
 		if(!user){
 			return res.status(422).send({
 				message: '用户名不存在',
@@ -85,6 +85,18 @@ module.exports = app => {
 			})
 		}
 		// 2. 校验
-		// 3. 返回 token 
+		const isValid = require('bcrypt').compareSync(password,user.password )
+		if(!isValid){
+			return res.status(422).send({
+				message: '密码错误',
+				status: 422
+			})
+		}
+		// 3. 返回 token
+		// 引用包
+		const jwt = require('jsonwebtoken')
+		// 第一个是加密的数据.  
+		const token = jwt.sign({id: user._id }, app.get('secret'))
+		res.send({token})
 	})
 }

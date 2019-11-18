@@ -1,7 +1,19 @@
 {
   "version": "0.2.0",
   "configurations": [
-
+		{
+			"type": "java",
+			"name": "CodeLens (Launch) - HelloWord",
+			"request": "launch",
+			"mainClass": "HelloWord"
+		},
+		{
+			"type": "java",
+			"name": "CodeLens (Launch) - HelloWord",
+			"request": "launch",
+			"mainClass": "admin.HelloWord",
+			"projectName": "Node-Vue-Moba_49f022d1"
+		},
 		{
 			"type": "node",
 			"request": "launch",
@@ -22,6 +34,5 @@
 			"request": "attach",
 			"name": "Browser Preview: Attach"
 		}
-
-  ]
+	]
 }
