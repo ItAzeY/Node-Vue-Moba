@@ -113,3 +113,26 @@ require("bcrypt").compareSync(password, user.password);
 // app.get 两种用途 1. get 请求,需要指定第二个参数(callback), 2. 获取全局变量.不能穿第二个参数.
 const token = jwt.sign({ id: user._id }, app.get("secret"));
 ```
+
+## 统一处理接口错误返回
+
+```js
+// 错误处理函数
+app.use(async (err, req, res, next) => {
+  res.status(err.statusCode || 500).send({
+    message: err.message
+  });
+});
+```
+
+## http-assert
+
+`http-assert` 我理解就是 简化 if 操作
+
+```js
+// 引入包
+const assert = require('http-assert')
+// 第一个参数是要校验的值, 第二个是返回的 code 值,第三个是 message 值.
+// 应该是返回给 错误处理函数的 err 对象
+assert(token, 401, '请提供 jwt token')
+```
