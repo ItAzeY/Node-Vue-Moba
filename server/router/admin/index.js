@@ -41,7 +41,6 @@ module.exports = app => {
 		await next()
 	}, async (req, res) => {
 		// find 盲猜是找数据 
-		// limit 盲猜 是获取多少条数据
 		const queryOption = {}
 		// 如果接口是 Category 那么请求的时候 就要带上一个对象
 		if (req.Model.modelName === 'Category') {
@@ -49,13 +48,19 @@ module.exports = app => {
 			queryOption.populate = 'parent'
 		}
 		let items = {}
+		// 如果有参数就代表是有分页(后面应该加上搜索条件)
 		if(req.query){
+			// 传递过来的分页是1,而 skip 方法是忽略多少项,所以要 - 1
 			const current = req.query.current - 1
+			// size 是转成数字
 			const size = +req.query.size
+			// skip 是忽略多少项,如果为 10, 那就是从 11 项开始返回
+			// limit 是返回多少项
 			items = await req.Model.find().setOptions(queryOption).skip(current * size).limit(size)
 		}else{
 			items = await req.Model.find().setOptions(queryOption)
 		}
+		// count 是获取一共有多少项
 		const total = await req.Model.find().setOptions(queryOption).count()
 		const data = {
 			data: items,
