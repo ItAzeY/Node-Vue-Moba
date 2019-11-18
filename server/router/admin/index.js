@@ -84,7 +84,10 @@ module.exports = app => {
 				data: null
 			})
 		}
-		// 2. 校验
+		// 2. 校验密码
+		// password 是传递过来的密码, 
+		// user.password 是数据库的密码.
+		// 返回的是一个布尔值
 		const isValid = require('bcrypt').compareSync(password,user.password )
 		if(!isValid){
 			return res.status(422).send({
@@ -96,6 +99,8 @@ module.exports = app => {
 		// 引用包
 		const jwt = require('jsonwebtoken')
 		// 第一个是加密的数据.  
+		// 第二个是 express 的全局变量需要用 get 来获取
+		// app.get 两种用途 1. get 请求,需要指定第二个参数(callback), 2. 获取全局变量.不能穿第二个参数.
 		const token = jwt.sign({id: user._id }, app.get('secret'))
 		res.send({token})
 	})

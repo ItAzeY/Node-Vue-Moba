@@ -27,8 +27,10 @@ export default {
   methods: {
     async login() {
       const res = await this.$http.post('login',this.model)
+      // 存储 token
       localStorage.setItem('token',res.data.token)
       sessionStorage.setItem('token',res.data.token)
+      // 跳转路由并且提示
       this.$router.push('/')
       this.$message.success('登陆成功')
     }

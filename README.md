@@ -53,17 +53,17 @@ docker rm mongo
 
 ```js
 // 引入插件
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 // 定义 Schema(架构的意思)
 const schema = new mongoose.Schema({
   // 定义 name 为 string 类型.(就像 mysql 里面的varchar)
   name: { type: String },
   // 定义 parent 为 id. 必须使用这样的方式(mongoose.SchemaTypes.ObjectId)
-  parent: { type: mongoose.SchemaTypes.ObjectId}
-})
+  parent: { type: mongoose.SchemaTypes.ObjectId }
+});
 
 // 导出模型
-module.exports = mongoose.model('Categories',schema)
+module.exports = mongoose.model("Categories", schema);
 ```
 
 ## mysql
@@ -94,9 +94,22 @@ router.get("/categories/parent", async (req, res) => {
 
 ```javascript
 // 引入 npm 包,hashSync 是异步方法,val是密码, 10 是安全等级.越大耗时越长,一般 10-12
-require('bcrypt').hashSync(val, 10)
+require("bcrypt").hashSync(val, 10);
+// password 是传递过来的密码, user.password 是数据库的密码. 返回的是一个布尔值
+require("bcrypt").compareSync(password, user.password);
 ```
 
 ## 登陆界面
 
 登陆界面的布局,使用`vw` 和 `vh` 来做,这样不管是什么分辨率的情况都可以正常展示,额,宽度配上媒体查询
+
+## jsonwebtoken
+
+`jsonwebtoken` 是一个生成 `token` 的插件
+
+```javascript
+// 第一个是加密的数据.
+// 第二个是 express 的全局变量需要用 get 来获取
+// app.get 两种用途 1. get 请求,需要指定第二个参数(callback), 2. 获取全局变量.不能穿第二个参数.
+const token = jwt.sign({ id: user._id }, app.get("secret"));
+```
