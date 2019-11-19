@@ -4,6 +4,7 @@ module.exports = app => {
 	const jwt = require('jsonwebtoken')
 	const AdminUser = require('../../models/AdminUser')
 	const router = expres.Router({ mergeParams: true })
+	// 验证 token
 	const auth = require('../../middleware/auth') 
 
 	// 保存分类

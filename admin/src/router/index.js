@@ -27,7 +27,10 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: Login
+    component: Login,
+    meta: {
+      isPublic: true
+    } 
   }, 
   {
     path: '/',
@@ -65,4 +68,11 @@ const router = new VueRouter({
   routes
 })
 
+// 全局导航钩子(每次切换路由之前的操作)
+router.beforeEach((to, form, next) => {
+  if(!to.meta.isPublic &&  !localStorage.token){
+    return next('/login')
+  }
+  next()
+})
 export default router

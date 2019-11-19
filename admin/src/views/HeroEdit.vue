@@ -10,8 +10,9 @@
           <el-form-item label="英雄头像">
             <el-upload
               class="avatar-uploader"
-              :action="$http.defaults.baseURL + '/upload'"
+              :action="baseUrl"
               :show-file-list="false"
+              :headers="getAuthHeaders()"
               :on-success="handleAvatarSuccess"
               :before-upload="beforeAvatarUpload"
             >
@@ -81,8 +82,9 @@
               <el-form-item label="技能图标">
                 <el-upload
                   class="avatar-uploader"
-                  :action="$http.defaults.baseURL + '/upload'"
+                  :action="baseUrl"
                   :show-file-list="false"
+                  :headers="getAuthHeaders()"
                   :on-success="res => $set(item, 'icon', res.url)"
                 >
                   <img v-if="item.icon" :src="item.icon" class="avatar" />
