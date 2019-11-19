@@ -136,3 +136,11 @@ const assert = require('http-assert')
 // 应该是返回给 错误处理函数的 err 对象
 assert(token, 401, '请提供 jwt token')
 ```
+
+## req.app
+
+```js
+// 在 req 中是可以访问 app 的,也就是 express
+req.app.get('secret')
+```
+
