@@ -1,0 +1,14 @@
+@mixin center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+// px单位转成vw单位
+@function px2vw($size: 14px, $width: 375px) {
+  @if (type-of($size) == "number" and unit($size) == "px") {
+    @return $size * 100vw / $width;
+  } @else {
+    @return $size;
+  }
+}

@@ -131,16 +131,157 @@ app.use(async (err, req, res, next) => {
 
 ```js
 // 引入包
-const assert = require('http-assert')
+const assert = require("http-assert");
 // 第一个参数是要校验的值, 第二个是返回的 code 值,第三个是 message 值.
 // 应该是返回给 错误处理函数的 err 对象
-assert(token, 401, '请提供 jwt token')
+assert(token, 401, "请提供 jwt token");
 ```
 
 ## req.app
 
 ```js
 // 在 req 中是可以访问 app 的,也就是 express
-req.app.get('secret')
+req.app.get("secret");
 ```
 
+## sass
+
+`css` 预处理语言: 安装两个插件 `node-sass` 和 `sass-loader`
+
+安装的`sass` 实际用的却是`scss`
+
+```bash
+# 安装
+npm install node-sass sass-loader
+# or
+yarn add node-sass sass-loader
+```
+
+### 变量
+
+```scss
+// 定义变量: $font-size 变量名称, 14px 值
+$font-size: 14px
+
+// 定义map 类似于 js 中的对象一样.
+// $colors: 变量名, primary: key, #db9e3f: 值
+$colors: (
+  'primary': #db9e3f,
+  'light': #f9f9f9,
+  'white': #fff,
+  'black': #000,
+  'drak': #212222,
+  'grey': #999
+);
+```
+
+### 循环
+
+```scss
+// $colorKey: key; $color: 值; $colors: 要循环的变量
+@each $colorKey, $color in $colors {
+  .text-#{$colorKey} {
+    color: $color;
+  }
+  .bg-#{$colorKey} {
+    background-color: $color;
+  }
+};
+```
+
+### 函数
+
+```scss
+// px单位转成vw单位
+// px2vw: 函数名
+// $size: 14px; $size: 参数; 14px: 默认值
+// @return 返回
+// type-of($size): 判断 size 是什么类型
+// unit: 返回该参数的单位.
+@function px2vw($size: 14px, $width: 375px) {
+  @if (type-of($size) == "number" and unit($size) == "px") {
+    @return $size * 100vw / $width;
+  } @else {
+    @return $size;
+  }
+}
+```
+
+**type-of:** 举个🌰
+
+- type-of(100px)  => number
+- type-of(asdf)   => string
+- type-of("asdf") => string
+- type-of(true)   => bool
+- type-of(#fff)   => color
+- type-of(blue)   => color
+
+**unit:** 举个🌰
+
+- unit(100) => ""
+- unit(100px) => "px"
+- unit(3em) => "em"
+- unit(10px * 5em) => "empx"
+- unit(10px 5em / 30cm / 1rem) => "empx/cmrem"
+
+### sass-resources-loader
+
+`sass-resources-loader` 全局引入 `scss`,对于`scss`中**function** 和 **mixin** 是非常友好的.就不用每个文件引入一次
+
+`vue.config.js` 配置如下:
+
+```js
+const path = require("path");
+
+function resolve(dir) {
+  return path.join(__dirname, dir);
+}
+
+module.exports = {
+  lintOnSave: true,
+  chainWebpack: config => {
+    const oneOfsMap = config.module.rule("scss").oneOfs.store;
+    oneOfsMap.forEach(item => {
+      item
+        .use("sass-resources-loader")
+        .loader("sass-resources-loader")
+        .options({
+          // Provide path to the file with resources
+          // resources: './src/styles/utils.scss'
+          resources: path.resolve(__dirname, "src/styles/utils.scss")
+        })
+        .end();
+    });
+    // 配置别名
+    config.resolve.alias.set("@", resolve("src"));
+  }
+};
+```
+
+`src/styles/utils.scss` 文件的内容如下:
+
+```scss
+@mixin center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// px单位转成vw单位
+@function px2vw($size: 14px, $width: 375px) {
+  @if (type-of($size) == "number" and unit($size) == "px") {
+    @return $size * 100vw / $width;
+  } @else {
+    @return $size;
+  }
+}
+```
+
+这样在`vue`的所有组件中都可以直接使用函数和mixin
+
+```scss
+div{
+  font-size: px2vw(100px);
+  @include center;
+}
+```

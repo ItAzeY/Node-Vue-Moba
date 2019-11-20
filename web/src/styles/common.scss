@@ -1,0 +1,83 @@
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+html {
+	font-size: 13px;
+}
+
+body{
+	padding: 0;
+	margin: 0;
+	font-family: Arial, Helvetica, sans-serif;
+	line-height: 1.2em;
+	background-color: #f1f1f1;
+}
+a{
+	color: #999;
+}
+
+// colors 
+$colors: (
+	'primary': #db9e3f,
+	'light': #f9f9f9,
+	'white': #fff,
+	'black': #000,
+	'drak': #212222,
+	'grey': #999 
+);
+
+// 循环
+@each $colorKey, $color in $colors {
+	.text-#{$colorKey} {
+		color: $color;
+	}
+	.bg-#{$colorKey} {
+		background-color: $color;
+	}
+}; 
+
+// text align
+@each $var in (left, center, right) {
+	.text-#{$var} {
+		text-align: $var;
+	}
+};
+
+// flex
+.d-flex{
+	display: flex;
+}
+
+.flex-1{
+	flex: 1;
+}
+
+.flex-grow-1{
+	flex-grow: 1;
+}
+
+// px单位转成vw单位
+@function px2vw($size: 14px, $width: 375px) {
+  @if (type-of($size) == "number" and unit($size) == "px") {
+    @return $size * 100vw / $width;
+  } @else {
+    @return $size;
+  }
+}
+
+$font-size: (
+  '10': 10px,
+  '12': 12px,
+  '14': 14px,
+  '16': 16px,
+  '22': 22px
+);
+
+@each $sizeKey, $size in $font-size {
+  .fs-#{$sizeKey} {
+    font-size: px2vw($size)
+  }
+}
+
