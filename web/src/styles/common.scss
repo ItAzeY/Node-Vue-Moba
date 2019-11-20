@@ -4,7 +4,7 @@
 }
 
 html {
-	font-size: 13px;
+	font-size: 12px;
 }
 
 body{
@@ -81,3 +81,33 @@ $font-size: (
   }
 }
 
+// spacing 
+$spacing-type: ( m: margin, p: padding);
+$spacing-directions: (t: top, b: bottom, r: right, l: left);
+$spacing-base-size: px2vw(12px);
+$spacing-size: (0: 0, 1: 0.25, 2: 0.5, 3: 1, 4: 1.5, 5: 3);
+
+@each $typeKey,$type in $spacing-type {
+	@each $sizeKey, $size in $spacing-size {
+		#{$typeKey}-#{$sizeKey}{
+			#{$type}: $size * $spacing-base-size
+		}
+	}
+	@each $sizeKey, $size in $spacing-size {
+		#{$typeKey}x-#{$sizeKey}{
+			#{$type}-left: $size * $spacing-base-size;
+			#{$type}-right: $size * $spacing-base-size;
+		}
+		#{$typeKey}y-#{$sizeKey}{
+			#{$type}-top: $size * $spacing-base-size;
+			#{$type}-bottom: $size * $spacing-base-size;
+		}
+	}
+	@each $directionsKey, $directions in $spacing-directions {
+		@each $sizeKey, $size in $spacing-size {
+			#{$typeKey}#{$directionsKey}-#{$sizeKey}{
+				#{$type}-#{$directions}: $size * $spacing-base-size
+			}
+		}
+	}
+}

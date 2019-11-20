@@ -186,7 +186,60 @@ $colors: (
   .bg-#{$colorKey} {
     background-color: $color;
   }
-};
+}
+```
+
+### 多层循环
+
+```scss
+// spacing
+$spacing-type: (
+  m: margin,
+  p: padding
+);
+$spacing-directions: (
+  t: top,
+  b: bottom,
+  r: right,
+  l: left
+);
+$spacing-base-size: px2vw(12px);
+$spacing-size: (
+  0: 0,
+  1: 0.25,
+  2: 0.5,
+  3: 1,
+  4: 1.5,
+  5: 3
+);
+
+@each $typeKey, $type in $spacing-type {
+  // m-0: margin: 0vw;
+  @each $sizeKey, $size in $spacing-size {
+    #{$typeKey}-#{$sizeKey} {
+      #{$type}: $size * $spacing-base-size;
+    }
+  }
+  // mx-0: margin-left:0;margin-right:0;
+  @each $sizeKey, $size in $spacing-size {
+    #{$typeKey}x-#{$sizeKey} {
+      #{$type}-left: $size * $spacing-base-size;
+      #{$type}-right: $size * $spacing-base-size;
+    }
+    #{$typeKey}y-#{$sizeKey} {
+      #{$type}-top: $size * $spacing-base-size;
+      #{$type}-bottom: $size * $spacing-base-size;
+    }
+  }
+  // mt-0: margin-top: 0
+  @each $directionsKey, $directions in $spacing-directions {
+    @each $sizeKey, $size in $spacing-size {
+      #{$typeKey}#{$directionsKey}-#{$sizeKey} {
+        #{$type}-#{$directions}: $size * $spacing-base-size;
+      }
+    }
+  }
+}
 ```
 
 ### 函数
@@ -207,21 +260,21 @@ $colors: (
 }
 ```
 
-**type-of:** 举个🌰
+**type-of:** 举个 🌰
 
-- type-of(100px)  => number
-- type-of(asdf)   => string
+- type-of(100px) => number
+- type-of(asdf) => string
 - type-of("asdf") => string
-- type-of(true)   => bool
-- type-of(#fff)   => color
-- type-of(blue)   => color
+- type-of(true) => bool
+- type-of(#fff) => color
+- type-of(blue) => color
 
-**unit:** 举个🌰
+**unit:** 举个 🌰
 
 - unit(100) => ""
 - unit(100px) => "px"
 - unit(3em) => "em"
-- unit(10px * 5em) => "empx"
+- unit(10px \* 5em) => "empx"
 - unit(10px 5em / 30cm / 1rem) => "empx/cmrem"
 
 ### sass-resources-loader
@@ -277,10 +330,10 @@ module.exports = {
 }
 ```
 
-这样在`vue`的所有组件中都可以直接使用函数和mixin
+这样在`vue`的所有组件中都可以直接使用函数和 mixin
 
 ```scss
-div{
+div {
   font-size: px2vw(100px);
   @include center;
 }
